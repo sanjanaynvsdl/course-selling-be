@@ -1,0 +1,107 @@
+header {
+   
+}
+body{
+    background:linear-gradient(to right, #182f31, #7ca7a7);;
+    place-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    align-items: center;
+    place-items: center;
+}
+#signup-page{
+    
+    display: flex;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+
+#signup-page div{
+    background-color: #7ca7a7;
+    margin: 20px;
+    padding: 14px;
+}
+
+#signup-page input{
+    display:  flex;
+    padding: 8px;
+    margin: 4px;
+    place-items: center;
+    border-radius: 2px;
+}
+
+#signup-page button {
+    padding-left:70px;
+    padding-right: 70px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: -30px;
+    border-radius: 3px;
+}
+
+#signin-page{
+    display: flex;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+
+#signin-page div{
+    background-color: #7ca7a7;
+    margin: 20px;
+    padding: 14px;
+}
+
+#signin-page input{
+    display:  flex;
+    padding: 8px;
+    margin: 4px;
+    place-items: center;
+    border-radius: 2px;
+}
+
+#signin-page button {
+    padding-left:70px;
+    padding-right: 70px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: -30px;
+    border-radius: 3px;
+}
+
+#heading{
+    /* margin-top: -20rem; */
+    position: fixed;
+    left: 2rem;
+    top:2%;
+    color: white;
+}
+
+.Main-content{
+    position:fixed;
+    top:10rem;
+    left:3rem;
+    color:white;
+}
+ .Main-content #courses-user{
+    display: flex;
+
+ }
+.Main-content div div {
+    padding: 3rem;
+    background-color: #7ca7a7;
+    margin: 10px;
+    color: black;
+    border-radius: 10px;
+
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);    
+
+}
+.Main-content  #purchased-courses {
+
+    display: flex;
+
+
+}

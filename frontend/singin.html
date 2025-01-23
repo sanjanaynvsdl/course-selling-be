@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sign In - E-Skills</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+
+        <div id="signin-page">
+            <div id="user-signin">
+                <h1>USER SIGN-IN</h1>
+                <!-- <p></p> -->
+                 <div>
+                <input id="email-signin-user" placeholder="email" type="text">
+                <input id="password-signin-user" placeholder="password" type="password">
+                <br>
+                <button id="user-signin" onclick="userSignIn()">Submit</button>
+                </div>
+                <div>
+                    <span>
+                        Don't have an account?
+                        <a href="#signup-page">Sign-up</a>
+                    </span>
+                </div>
+            </div>
+            <div id="admin-signin">
+                <h1>ADMIN SIGN-IN</h1>
+                <!-- <p>Admins can create a course!</p> -->
+                 <div>
+                <input id="email-signin-admin" placeholder="email" type="text">
+                <input id="password-signin-admin" placeholder="password" type="password">
+                <br>
+                <button id="admin-signin" onclick="adminSignin()">Submit</button>
+
+                 </div>
+                
+                
+                <div>
+                    <span>
+                        Don't have an account?
+                        <a href="#signup-page">Sign-up</a>
+                    </span>
+
+                </div>
+            </div>
+        </div>
+        <script src="./script.js"></script>
+    </body>
+</html>

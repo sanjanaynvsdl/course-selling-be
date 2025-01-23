@@ -1,7 +1,8 @@
 const express = require('express');
 const dotenv = require("dotenv");
 dotenv.config();
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const cors = require('cors');
 
 const userRoutes = require("./routes/user")
 const courseRoutes = require("./routes/course")
@@ -11,6 +12,8 @@ const PORT = process.env.PORT;
 const app = express();
 
 app.use(express.json())
+app.use(cors())
+
 app.use("/api/v1/user",userRoutes);
 app.use("/api/v1/course",courseRoutes);
 app.use("/api/v1/admin", adminRoutes);
