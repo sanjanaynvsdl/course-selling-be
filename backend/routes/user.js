@@ -1,9 +1,10 @@
 const {Router} = require("express");
 const router = Router()
-const {UserModel }= require("../schema/db"); 
+const {UserModel, PurchaseModel, CourseModel }= require("../schema/db"); 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const {z} = require('zod')
+const {z} = require('zod');
+const userMiddleware = require("../middlwares/userMiddlware");
 
 router.post("/signup", async(req,res)=> {
     const {email, password, firstName, lastName} = req.body;
@@ -99,10 +100,29 @@ router.post("/signin", async(req,res)=> {
 
 })
 
-router.get("/purchases", async(req,res)=> {
-    return res.json({
-        message:"Courses purchased by the user"
-    })
+router.get("/purchases",userMiddleware,  async(req,res)=> {
+
+    const userId = req.userId;
+
+    try {
+        const purchases = await PurchaseModel.find({
+            userId:userId,
+        })
+
+        const courseData = await CourseModel.find({
+            _id: {$in : purchases.map((x)=> x.courseId)}
+        })
+
+        return res.status(200).json({
+            message:"Fetched all the purchases of this user!",
+            purchases:courseData
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal server error in user-purchases functionality!",
+            error:error
+        })
+    }
 
 })
 

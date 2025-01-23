@@ -3,7 +3,9 @@ const {AdminModel} = require("../schema/db")
 const {z} = require('zod');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const adminRoutes = Router()
+const adminRoutes = Router();
+const adminMiddleware= require('../middlwares/adminMiddleware');
+const { CourseModel}= require("../schema/db")
 
 adminRoutes.post("/signup", async(req,res)=> {
     const {email, password, firstName, lastName} = req.body;
@@ -95,24 +97,140 @@ adminRoutes.post("/signin", async(req,res)=> {
 
 })
 
-adminRoutes.post("/course", async(req,res)=> {
+adminRoutes.post("/course", adminMiddleware, async(req,res)=> {
+    const {title, description, price, imageUrl} = req.body;
+    const adminId = req.userId;
+
+    try {
+
+        //input validation using zod,
+
+        const course = await CourseModel.create({
+            title:title,
+            description:description,
+            price:price,
+            imageUrl:imageUrl,
+            creatorId:adminId
+        })
+
+        return res.status(200).json({
+            message:"Successfully created the course!",
+            courseId:course._id
+        })
+        
+    } catch (error) {
+        return res.status(500).json({
+            message:"Error in course-add functionality",
+            error:error
+        })
+    }
 
 })
 
-adminRoutes.put("/course", async(req,res)=> {
+adminRoutes.put("/course",adminMiddleware ,  async(req,res)=> {
+    // const courseId = req.params.id;
 
+    // if(!courseId) {
+    //     return res.status(403).json({
+    //         message:"Please provide the correct course id"
+    //     })
+    // }
+
+    try {
+        const {title,description, price, imageUrl, courseId} = req.body;
+        const adminId = req.userId;
+
+        //Admin one mroe filter, only the owner of the course should be able to update thr course details,
+        const course = await CourseModel.findOne({
+            _id:courseId,
+            creatorId:adminId
+        });
+
+        if(!course) {
+            return res.status(403).json({
+                message:"Course with the given id is not present or you are not admin of the course!"
+            })
+        }
+        //updateOne (filter, objToBeUpdated,)
+        await CourseModel.updateOne({
+            _id:courseId
+        }, {
+            title:title,
+            description:description,
+            price:price,
+            imageUrl:imageUrl,
+            creatorId:adminId
+        })
+
+        return res.status(200).json({
+            message:"Course updated successfully!"
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal server error in update course functionality of adminRoutes!"
+        })
+    }
 })
 
 //get-all-courses of admin,
-adminRoutes.get("/course/bulk", async(req,res)=> {
+adminRoutes.get("/course/bulk", adminMiddleware , async(req,res)=> {
+    const adminId = req.userId;
+
+    try {
+        const courses = await CourseModel.find({
+            creatorId:adminId,
+        })
+
+        return res.status(200).json({
+            message:"Fetched all the courses of this admin",
+            courses:courses,
+        })
+        
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal server error in get-all-courses in adminRoutes"
+        })
+    }
 
 })
 
-adminRoutes.delete("/course/:id", async(req,res)=> {
+adminRoutes.delete("/course/:id", adminMiddleware , async(req,res)=> {
+    const courseId = req.params.id;
+
+    if(!courseId) {
+        return res.status(403).json({
+            message:"Please provide proper id to search!"
+        })
+    }
+
+    try {
+        const course = await CourseModel.findOne({
+            _id:courseId,
+        })
+
+        if(course) {
+            await CourseModel.deleteOne({
+                _id:courseId,
+            })
+            return res.status(200).json({
+                message:"Deleted the course successfully!"
+            })
+        } else {
+            return res.status(403).json({
+                message:"Course with the given id is not found to delete!"
+            })
+        }
+    } catch (error) {
+        return res.status(500).json({
+            message:"Internal server error in delete course functionality in adminRoutes!",
+            error:error
+        })
+    }
 
 })
 
 adminRoutes.post("content", async(req,res)=> {
+     
 
 })
 

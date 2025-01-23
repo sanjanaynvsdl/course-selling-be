@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const secretAdminKey= process.env.JWT_ADMIN_SECRET;   
 
 function adminMiddleware(req,res,next) {
-        const token = req.header.token;
+        const token = req.headers.token;
     
         if(!token) {
             return res.json({

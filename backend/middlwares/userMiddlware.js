@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const secretUserKey = process.env.JWT_USER_SECRET;
 
 function userMiddleware(req,res,next) {
-    const token = req.header.token;
+    const token = req.headers.token;
 
     if(!token) {
         return res.json({
